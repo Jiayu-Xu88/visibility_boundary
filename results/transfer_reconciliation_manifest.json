@@ -1,0 +1,70 @@
+{
+  "generated_for": "P0 Table3/Table4 transfer AUROC reconciliation",
+  "fractions_file": "/home/ubuntu/shared/proj-Gastrointestinal/Experiment/analysis/medical_morphology_atlas/gi_morphology_state_patient_fractions.tsv",
+  "fractions_sha256": "196afcffdb936508a407fc93992cb758ec41960d778d3ad75884306e8a00f408",
+  "n": {
+    "CRC": {
+      "patients": 534,
+      "msi_h": 71
+    },
+    "STAD": {
+      "patients": 376,
+      "msi_h": 60
+    }
+  },
+  "nperm": 1000,
+  "nboot": 2000,
+  "perm_seed": 20260807,
+  "results": {
+    "pilot_scaled_C0.1::STAD_to_CRC": {
+      "auroc": 0.5344,
+      "pr_auc": 0.1429,
+      "auroc_boot95": [
+        0.4701,
+        0.5981
+      ],
+      "perm_null_mean": 0.5168,
+      "perm_p": 0.435
+    },
+    "pilot_scaled_C0.1::CRC_to_STAD": {
+      "auroc": 0.456,
+      "pr_auc": 0.1457,
+      "auroc_boot95": [
+        0.3813,
+        0.5332
+      ],
+      "perm_null_mean": 0.5015,
+      "perm_p": 0.611
+    },
+    "direction2_raw_C1.0::STAD_to_CRC": {
+      "auroc": 0.5331,
+      "pr_auc": 0.155,
+      "auroc_boot95": [
+        0.4564,
+        0.6085
+      ],
+      "perm_null_mean": 0.4959,
+      "perm_p": 0.31
+    },
+    "direction2_raw_C1.0::CRC_to_STAD": {
+      "auroc": 0.5929,
+      "pr_auc": 0.214,
+      "auroc_boot95": [
+        0.5119,
+        0.6719
+      ],
+      "perm_null_mean": 0.4962,
+      "perm_p": 0.104
+    }
+  },
+  "within_lineage_cv_unified": {
+    "config": "LogisticRegression(max_iter=2000, class_weight=balanced), raw fractions, StratifiedKFold(5, shuffle, seed=1234), cross_val_predict",
+    "MSI-H_CRC": 0.7079,
+    "MSI-H_STAD": 0.6913,
+    "Subtype-EBV_STAD": 0.6577,
+    "Subtype-MSI_STAD": 0.6729,
+    "Subtype-GS_STAD": 0.7283,
+    "Subtype-CIN_STAD": 0.5205,
+    "note": "Unified Table 3 CV column; previous exp5-pipeline values (0.713/0.711/0.721/0.664/0.767/0.517) were superseded on 2026-08-18."
+  }
+}

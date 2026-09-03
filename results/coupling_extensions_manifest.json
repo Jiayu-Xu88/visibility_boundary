@@ -1,0 +1,285 @@
+{
+  "meta": {
+    "nperm": 1000,
+    "nboot": 2000,
+    "perm_seed": 20260807
+  },
+  "S1_coupling": {
+    "CRC": {
+      "n_assessable": 532,
+      "n_mucinous": 69,
+      "OR_mucinous_MSI": {
+        "or": 3.0,
+        "ci95": [
+          1.67,
+          5.49
+        ],
+        "fisher_p": 0.000885,
+        "table": [
+          [
+            19,
+            50
+          ],
+          [
+            52,
+            411
+          ]
+        ]
+      },
+      "cliff_state0_MSI": {
+        "cliff": 0.4,
+        "ci95": [
+          0.266,
+          0.523
+        ],
+        "mwu_p": 1.5e-11
+      },
+      "cliff_state0_mucinous": {
+        "cliff": 0.501,
+        "ci95": [
+          0.362,
+          0.628
+        ],
+        "mwu_p": 7.29e-17
+      }
+    },
+    "STAD": {
+      "n_assessable": 376,
+      "n_mucinous": 21,
+      "OR_mucinous_MSI": {
+        "or": 0.87,
+        "ci95": [
+          0.3,
+          3.19
+        ],
+        "fisher_p": 1.0,
+        "table": [
+          [
+            3,
+            18
+          ],
+          [
+            57,
+            298
+          ]
+        ]
+      },
+      "cliff_state0_MSI": {
+        "cliff": 0.031,
+        "ci95": [
+          -0.093,
+          0.161
+        ],
+        "mwu_p": 0.614
+      },
+      "cliff_state0_mucinous": {
+        "cliff": 0.664,
+        "ci95": [
+          0.435,
+          0.869
+        ],
+        "mwu_p": 1.49e-11
+      }
+    }
+  },
+  "S2_new_rungs": {
+    "grade_G3": {
+      "n_labeled": {
+        "CRC": 0,
+        "STAD": 367
+      },
+      "n_pos": {
+        "CRC": 0,
+        "STAD": 228
+      },
+      "within_cv": {},
+      "transfer": {},
+      "skipped": "insufficient labels (usable={'CRC': np.False_, 'STAD': np.True_}); rung not evaluable"
+    },
+    "tstage_T34": {
+      "n_labeled": {
+        "CRC": 533,
+        "STAD": 376
+      },
+      "n_pos": {
+        "CRC": 419,
+        "STAD": 284
+      },
+      "within_cv": {
+        "CRC": 0.6481,
+        "STAD": 0.7077
+      },
+      "transfer": {
+        "STAD_to_CRC": {
+          "auroc": 0.6022,
+          "perm_p": 0.025,
+          "boot95": [
+            0.5441,
+            0.6565
+          ]
+        },
+        "CRC_to_STAD": {
+          "auroc": 0.65,
+          "perm_p": 0.039,
+          "boot95": [
+            0.5824,
+            0.7179
+          ]
+        }
+      }
+    }
+  },
+  "S3_retention": {
+    "transfer_above_chance_1024": 0.1027,
+    "transfer_above_chance_24": 0.0331,
+    "transfer_retention_ratio": 0.322,
+    "transfer_retention_ci95": [
+      -0.858,
+      0.835
+    ],
+    "within_above_chance_1024": 0.3331,
+    "within_above_chance_24": 0.2079,
+    "within_retention_ratio": 0.624
+  },
+  "S5a_pooled_vs_stadonly": {
+    "model": "ABMIL UNI, best-val-epoch out-of-fold predictions",
+    "n_stad_patients_paired": 376,
+    "n_msi_h": 60,
+    "stad_only_auroc": 0.8964,
+    "pooled_gi_auroc": 0.9129,
+    "delta_pooled_minus_stadonly": 0.0165,
+    "delta_boot95": [
+      -0.0092,
+      0.0431
+    ],
+    "caveat": "fold assignments differ between the two training tasks; pairing is patient-wise out-of-fold"
+  },
+  "S5b_state_lineage_composition": {
+    "state_00": {
+      "CRC_mean_frac": 0.0222,
+      "STAD_mean_frac": 0.0196,
+      "STAD_share": 0.469
+    },
+    "state_01": {
+      "CRC_mean_frac": 0.0753,
+      "STAD_mean_frac": 0.0352,
+      "STAD_share": 0.319
+    },
+    "state_02": {
+      "CRC_mean_frac": 0.0244,
+      "STAD_mean_frac": 0.0825,
+      "STAD_share": 0.772
+    },
+    "state_03": {
+      "CRC_mean_frac": 0.036,
+      "STAD_mean_frac": 0.0554,
+      "STAD_share": 0.606
+    },
+    "state_04": {
+      "CRC_mean_frac": 0.0629,
+      "STAD_mean_frac": 0.0078,
+      "STAD_share": 0.111
+    },
+    "state_05": {
+      "CRC_mean_frac": 0.001,
+      "STAD_mean_frac": 0.0645,
+      "STAD_share": 0.985
+    },
+    "state_06": {
+      "CRC_mean_frac": 0.06,
+      "STAD_mean_frac": 0.0258,
+      "STAD_share": 0.301
+    },
+    "state_07": {
+      "CRC_mean_frac": 0.0119,
+      "STAD_mean_frac": 0.1006,
+      "STAD_share": 0.894
+    },
+    "state_08": {
+      "CRC_mean_frac": 0.0165,
+      "STAD_mean_frac": 0.0408,
+      "STAD_share": 0.712
+    },
+    "state_09": {
+      "CRC_mean_frac": 0.0582,
+      "STAD_mean_frac": 0.0316,
+      "STAD_share": 0.352
+    },
+    "state_10": {
+      "CRC_mean_frac": 0.0929,
+      "STAD_mean_frac": 0.0031,
+      "STAD_share": 0.032
+    },
+    "state_11": {
+      "CRC_mean_frac": 0.0286,
+      "STAD_mean_frac": 0.0346,
+      "STAD_share": 0.548
+    },
+    "state_12": {
+      "CRC_mean_frac": 0.1214,
+      "STAD_mean_frac": 0.0059,
+      "STAD_share": 0.047
+    },
+    "state_13": {
+      "CRC_mean_frac": 0.0524,
+      "STAD_mean_frac": 0.0627,
+      "STAD_share": 0.545
+    },
+    "state_14": {
+      "CRC_mean_frac": 0.0219,
+      "STAD_mean_frac": 0.0585,
+      "STAD_share": 0.727
+    },
+    "state_15": {
+      "CRC_mean_frac": 0.0458,
+      "STAD_mean_frac": 0.0079,
+      "STAD_share": 0.147
+    },
+    "state_16": {
+      "CRC_mean_frac": 0.0238,
+      "STAD_mean_frac": 0.0368,
+      "STAD_share": 0.607
+    },
+    "state_17": {
+      "CRC_mean_frac": 0.0325,
+      "STAD_mean_frac": 0.0055,
+      "STAD_share": 0.144
+    },
+    "state_18": {
+      "CRC_mean_frac": 0.0114,
+      "STAD_mean_frac": 0.1056,
+      "STAD_share": 0.903
+    },
+    "state_19": {
+      "CRC_mean_frac": 0.0621,
+      "STAD_mean_frac": 0.038,
+      "STAD_share": 0.38
+    },
+    "state_20": {
+      "CRC_mean_frac": 0.0191,
+      "STAD_mean_frac": 0.032,
+      "STAD_share": 0.626
+    },
+    "state_21": {
+      "CRC_mean_frac": 0.0146,
+      "STAD_mean_frac": 0.0896,
+      "STAD_share": 0.86
+    },
+    "state_22": {
+      "CRC_mean_frac": 0.0742,
+      "STAD_mean_frac": 0.0146,
+      "STAD_share": 0.165
+    },
+    "state_23": {
+      "CRC_mean_frac": 0.031,
+      "STAD_mean_frac": 0.0415,
+      "STAD_share": 0.572
+    }
+  },
+  "S5c_tss_overlap": {
+    "n_tss_CRC": 36,
+    "n_tss_STAD": 22,
+    "n_shared_tss": 0,
+    "shared_codes": []
+  }
+}

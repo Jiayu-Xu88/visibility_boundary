@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "kmeans_seed": 20260519,
+    "cv_seed": 1234,
+    "nboot": 2000,
+    "nperm": 1000,
+    "fit_patches_per_slide": 96,
+    "assign_patches_per_slide": 512,
+    "n_slides": 942,
+    "n_patients": 910
+  },
+  "nested_cv": {
+    "CRC": {
+      "n": 534,
+      "n_pos": 71,
+      "nested_auroc": 0.6726,
+      "nested_ci": [
+        0.5971,
+        0.7437
+      ],
+      "nested_prauc": 0.2735,
+      "global_auroc_same_folds": 0.7079,
+      "global_ci": [
+        0.6441,
+        0.7726
+      ],
+      "global_prauc": 0.3015
+    },
+    "STAD": {
+      "n": 376,
+      "n_pos": 60,
+      "nested_auroc": 0.6763,
+      "nested_ci": [
+        0.5996,
+        0.7537
+      ],
+      "nested_prauc": 0.3139,
+      "global_auroc_same_folds": 0.6863,
+      "global_ci": [
+        0.6092,
+        0.7579
+      ],
+      "global_prauc": 0.2795
+    }
+  },
+  "paired_delta": {
+    "CRC": {
+      "global_minus_nested_auroc": 0.0353,
+      "boot95": [
+        -0.0091,
+        0.0828
+      ]
+    },
+    "STAD": {
+      "global_minus_nested_auroc": 0.01,
+      "boot95": [
+        -0.0336,
+        0.0592
+      ]
+    }
+  },
+  "source_only_transfer": {
+    "STAD_to_CRC": {
+      "auroc": 0.5232,
+      "null_mean": 0.4983,
+      "perm_p": 0.199
+    },
+    "CRC_to_STAD": {
+      "auroc": 0.3986,
+      "null_mean": 0.5004,
+      "perm_p": 0.9
+    }
+  }
+}

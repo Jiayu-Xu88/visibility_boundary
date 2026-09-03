@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "R_px": 3072,
+    "cv_seed": 1234,
+    "perm_seed": 20260807,
+    "nperm": 1000,
+    "clr_eps": 0.0001,
+    "atlas": "frozen pooled K=24 published centers",
+    "features": {
+      "clr": 24,
+      "spatial": "24 assortativity + 24 neighbor entropy",
+      "fused": 72
+    },
+    "caveat": "sparse sampled grid: coarse co-occurrence, not contiguity"
+  },
+  "tracks": {
+    "all": {
+      "n_patients": {
+        "STAD": 376,
+        "CRC": 534
+      },
+      "models": {
+        "clr": {
+          "within_cv": {
+            "CRC": 0.7677,
+            "STAD": 0.7032
+          },
+          "STAD_to_CRC": {
+            "auroc": 0.6229,
+            "null_mean": 0.4875,
+            "perm_p": 0.022
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5544,
+            "null_mean": 0.4987,
+            "perm_p": 0.268
+          }
+        },
+        "spatial": {
+          "within_cv": {
+            "CRC": 0.7233,
+            "STAD": 0.6827
+          },
+          "STAD_to_CRC": {
+            "auroc": 0.5557,
+            "null_mean": 0.5003,
+            "perm_p": 0.226
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5566,
+            "null_mean": 0.5075,
+            "perm_p": 0.239
+          }
+        },
+        "fused": {
+          "within_cv": {
+            "CRC": 0.7458,
+            "STAD": 0.7224
+          },
+          "STAD_to_CRC": {
+            "auroc": 0.5674,
+            "null_mean": 0.4908,
+            "perm_p": 0.107
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5464,
+            "null_mean": 0.5036,
+            "perm_p": 0.296
+          }
+        }
+      }
+    },
+    "tumor": {
+      "n_patients": {
+        "STAD": 376,
+        "CRC": 534
+      },
+      "models": {
+        "clr": {
+          "within_cv": {
+            "CRC": 0.613,
+            "STAD": 0.6542
+          },
+          "STAD_to_CRC": {
+            "auroc": 0.4731,
+            "null_mean": 0.4951,
+            "perm_p": 0.619
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5211,
+            "null_mean": 0.5162,
+            "perm_p": 0.471
+          }
+        },
+        "spatial": {
+          "within_cv": {
+            "CRC": 0.6484,
+            "STAD": 0.6628
+          },
+          "STAD_to_CRC": {
+            "auroc": 0.4634,
+            "null_mean": 0.4943,
+            "perm_p": 0.697
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5552,
+            "null_mean": 0.5033,
+            "perm_p": 0.208
+          }
+        },
+        "fused": {
+          "within_cv": {
+            "CRC": 0.6651,
+            "STAD": 0.6692
+          },
+          "STAD_to_CRC": {
+            "auroc": 0.4798,
+            "null_mean": 0.4898,
+            "perm_p": 0.568
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5528,
+            "null_mean": 0.519,
+            "perm_p": 0.372
+          }
+        }
+      }
+    }
+  }
+}

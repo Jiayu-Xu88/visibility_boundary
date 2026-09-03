@@ -1,0 +1,21 @@
+{
+ "n_patients": 532,
+ "n_mucinous": 69,
+ "n_msih": 71,
+ "targets": {
+  "mucinous_score": {
+   "oof_auroc": 0.838,
+   "r2": {
+    "K24_fractions": 0.6474,
+    "mean1024": 0.9324
+   }
+  },
+  "msi_score": {
+   "oof_auroc": 0.8352,
+   "r2": {
+    "K24_fractions": 0.5703,
+    "mean1024": 0.9148
+   }
+  }
+ }
+}

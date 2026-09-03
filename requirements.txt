@@ -1,0 +1,16 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+numpy
+scikit-learn
+pandas
+h5py
+pillow
+timm
+huggingface_hub
+openslide-python
+openslide-bin
+tqdm
+matplotlib
+pot
+git+https://github.com/Mahmoodlab/CONCH.git

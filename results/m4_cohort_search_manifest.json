@@ -1,0 +1,93 @@
+{
+ "search_date": "2026-08-25",
+ "objective": "Locate a publicly obtainable external gastric adenocarcinoma H&E whole-slide cohort with MSI-H/MSS ground truth, to externally re-test within-gastric MSI visibility and colorectal-to-gastric transfer.",
+ "pre_registered_gate": {
+  "source": "EXTERNAL_COHORT_REQUIREMENTS.md",
+  "n_patients_min": 200,
+  "n_msi_h_min": 30,
+  "labels_accepted": [
+   "MMR IHC",
+   "PCR MSI panel",
+   "validated NGS MSI caller"
+  ]
+ },
+ "queries_executed": [
+  {
+   "resource": "NCI Genomic Data Commons",
+   "api": "https://api.gdc.cancer.gov/files",
+   "filter": "files.data_type = 'Slide Image' AND cases.primary_site IN (Stomach, Esophagus, Gastroesophageal junction)",
+   "result_total_files": 1629,
+   "all_open_access": true,
+   "projects": {
+    "TCGA-STAD": 1197,
+    "TCGA-ESCA": 396,
+    "HCMI-CMDC": 23,
+    "TCGA-SARC": 8,
+    "TCGA-DLBC": 5
+   },
+   "verdict": "No non-TCGA gastric slide cohort exists in GDC. TCGA-STAD is the discovery cohort itself."
+  },
+  {
+   "resource": "NCI Imaging Data Commons v2",
+   "api": "https://api.imaging.datacommons.cancer.gov/v2/collections",
+   "collections_scanned": 176,
+   "gastroesophageal_collections": [
+    "cmb_gec",
+    "cptac_stad",
+    "tcga_stad",
+    "tcga_esca",
+    "hcmi_cmdc"
+   ],
+   "verdict": "No additional gastric slide-microscopy collection beyond TCGA-STAD."
+  }
+ ],
+ "candidates_assessed": [
+  {
+   "cohort": "CPTAC-STAD (Stomach Adenocarcinoma)",
+   "molecular_data": "165 open cases; 164 methylation, 163 masked somatic mutation, 151 expression",
+   "slide_microscopy_series": 0,
+   "imaging_modalities_present": [
+    "CT",
+    "US"
+   ],
+   "gdc_slide_image_files": 0,
+   "verdict": "EXCLUDED: rich molecular data but no pathology whole-slide images. MSI labels could be derived, but there are no images to score."
+  },
+  {
+   "cohort": "CMB-GEC (Cancer Moonshot Biobank, gastroesophageal)",
+   "n_patients_with_slide_microscopy": 16,
+   "format": "DICOM-SM",
+   "msi_label_access": "controlled-access dbGaP phs002192 only; not in the open clinical core",
+   "verdict": "EXCLUDED: fails the pre-registered gate by 12.5x on patient count, and MSI labels are not publicly obtainable."
+  },
+  {
+   "cohort": "TCGA-ESCA (esophageal/gastroesophageal junction)",
+   "n_patients": 182,
+   "msi_h_count": 3,
+   "msi_h_prevalence": 0.016,
+   "callers_agreeing": [
+    "MANTIS >= 0.4",
+    "MSIsensor >= 10"
+   ],
+   "verdict": "EXCLUDED: 3 MSI-H patients; fails the MSI-H gate by 10x. Also a different lineage (53% squamous), not a gastric replication."
+  },
+  {
+   "cohort": "HCMI-CMDC (Human Cancer Models Initiative)",
+   "gastroesophageal_slide_files": 23,
+   "msi_labels": "not systematically available",
+   "verdict": "EXCLUDED: cancer-model development resource; too small and unlabelled for MSI evaluation."
+  },
+  {
+   "cohort": "Kather et al. 2019 gastric series (KCCH / Kiel)",
+   "public_status": "Not deposited. The associated Zenodo records 10.5281/zenodo.2530835 and 2532612 contain colour-normalised tiles DERIVED FROM TCGA-STAD, i.e. the discovery cohort, not an external one.",
+   "verdict": "EXCLUDED: not external and not obtainable."
+  },
+  {
+   "cohort": "Seoul St Mary's Hospital gastric FFPE series; Japanese gastric EBV/MSI series; MSI-SEER validation cohorts",
+   "public_status": "Whole-slide images stated as available from the corresponding authors on reasonable request; no public accession.",
+   "verdict": "EXCLUDED: request-gated, not publicly downloadable within the timeframe of this study."
+  }
+ ],
+ "conclusion": "As of the search date no publicly obtainable external gastric cohort meets the pre-registered gate. The negative cross-lineage finding therefore cannot be externally replicated with public data, and internal-external (leave-one-centre-out) cross-validation is reported instead (m4_internal_external_cv_manifest.json).",
+ "what_would_resolve_it": "A gastric adenocarcinoma cohort of >=200 patients with >=30 MSI-H cases, FFPE diagnostic slides and MMR-IHC or PCR ground truth, from at least one centre outside TCGA. Obtaining one requires a data-sharing agreement or controlled-access application rather than a public download."
+}

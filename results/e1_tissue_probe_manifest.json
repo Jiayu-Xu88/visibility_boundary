@@ -1,0 +1,397 @@
+{
+  "meta": {
+    "probe": "nct_uni_tissue_probe.npz (see its manifest)",
+    "kmeans_seed": 20260519,
+    "cv_seed": 1234,
+    "perm_seed": 20260807,
+    "nperm": 1000,
+    "clr_eps": 0.0001,
+    "n_slides": 942,
+    "classes": [
+      "ADI",
+      "BACK",
+      "DEB",
+      "LYM",
+      "MUC",
+      "MUS",
+      "NORM",
+      "STR",
+      "TUM"
+    ]
+  },
+  "qcA_top3_class_prob_per_k24_state": {
+    "state_00": {
+      "MUC": 0.853,
+      "STR": 0.042,
+      "TUM": 0.037
+    },
+    "state_01": {
+      "TUM": 0.242,
+      "STR": 0.225,
+      "MUC": 0.209
+    },
+    "state_02": {
+      "TUM": 0.488,
+      "STR": 0.251,
+      "DEB": 0.124
+    },
+    "state_03": {
+      "STR": 0.428,
+      "MUS": 0.343,
+      "DEB": 0.058
+    },
+    "state_04": {
+      "TUM": 0.373,
+      "NORM": 0.23,
+      "MUC": 0.155
+    },
+    "state_05": {
+      "NORM": 0.338,
+      "DEB": 0.127,
+      "STR": 0.116
+    },
+    "state_06": {
+      "TUM": 0.466,
+      "STR": 0.175,
+      "DEB": 0.131
+    },
+    "state_07": {
+      "STR": 0.421,
+      "TUM": 0.308,
+      "DEB": 0.068
+    },
+    "state_08": {
+      "MUS": 0.758,
+      "STR": 0.152,
+      "DEB": 0.027
+    },
+    "state_09": {
+      "TUM": 0.865,
+      "DEB": 0.067,
+      "STR": 0.02
+    },
+    "state_10": {
+      "TUM": 0.746,
+      "MUC": 0.078,
+      "BACK": 0.077
+    },
+    "state_11": {
+      "ADI": 0.337,
+      "BACK": 0.151,
+      "MUS": 0.15
+    },
+    "state_12": {
+      "TUM": 0.903,
+      "MUC": 0.034,
+      "DEB": 0.02
+    },
+    "state_13": {
+      "DEB": 0.411,
+      "STR": 0.15,
+      "BACK": 0.139
+    },
+    "state_14": {
+      "STR": 0.551,
+      "TUM": 0.286,
+      "DEB": 0.073
+    },
+    "state_15": {
+      "NORM": 0.667,
+      "TUM": 0.223,
+      "MUC": 0.028
+    },
+    "state_16": {
+      "STR": 0.501,
+      "MUS": 0.116,
+      "ADI": 0.1
+    },
+    "state_17": {
+      "TUM": 0.37,
+      "BACK": 0.175,
+      "STR": 0.163
+    },
+    "state_18": {
+      "TUM": 0.394,
+      "STR": 0.21,
+      "DEB": 0.163
+    },
+    "state_19": {
+      "STR": 0.417,
+      "MUS": 0.205,
+      "ADI": 0.195
+    },
+    "state_20": {
+      "BACK": 0.678,
+      "MUS": 0.105,
+      "DEB": 0.093
+    },
+    "state_21": {
+      "STR": 0.669,
+      "MUS": 0.096,
+      "BACK": 0.048
+    },
+    "state_22": {
+      "TUM": 0.867,
+      "DEB": 0.055,
+      "STR": 0.043
+    },
+    "state_23": {
+      "MUS": 0.885,
+      "STR": 0.062,
+      "DEB": 0.022
+    }
+  },
+  "qcB_state41_class_profile": {
+    "n_patches": 2538,
+    "mean_prob": {
+      "DEB": 0.449,
+      "STR": 0.237,
+      "BACK": 0.094,
+      "LYM": 0.069,
+      "MUC": 0.049,
+      "MUS": 0.034,
+      "NORM": 0.032,
+      "TUM": 0.026,
+      "ADI": 0.01
+    }
+  },
+  "compartments": {
+    "all": {
+      "n_patches": {
+        "CRC": 136595,
+        "STAD": 98123
+      },
+      "n_patients": {
+        "CRC": 534,
+        "STAD": 376
+      },
+      "shared_state": {
+        "n_shared_fdr10": 0,
+        "shared_states": [],
+        "n_stad_fdr10": 4,
+        "n_crc_fdr10": 0
+      },
+      "best_state_auroc": {
+        "CRC": 0.5914,
+        "STAD": 0.6269
+      },
+      "within_cv_auroc": {
+        "CRC": 0.5946,
+        "STAD": 0.705
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.5091,
+          "null_mean": 0.4952,
+          "perm_p": 0.387
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.6157,
+          "null_mean": 0.4974,
+          "perm_p": 0.049
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.5497,
+          "null_mean": 0.493,
+          "perm_p": 0.108
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.6598,
+          "null_mean": 0.4985,
+          "perm_p": 0.025
+        }
+      }
+    },
+    "tumor": {
+      "n_patches": {
+        "CRC": 66936,
+        "STAD": 25757
+      },
+      "n_patients": {
+        "CRC": 534,
+        "STAD": 376
+      },
+      "shared_state": {
+        "n_shared_fdr10": 1,
+        "shared_states": [
+          16
+        ],
+        "n_stad_fdr10": 2,
+        "n_crc_fdr10": 2
+      },
+      "best_state_auroc": {
+        "CRC": 0.6009,
+        "STAD": 0.5957
+      },
+      "within_cv_auroc": {
+        "CRC": 0.7552,
+        "STAD": 0.6527
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.4061,
+          "null_mean": 0.4976,
+          "perm_p": 0.891
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.4924,
+          "null_mean": 0.5029,
+          "perm_p": 0.555
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.4839,
+          "null_mean": 0.4928,
+          "perm_p": 0.548
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.5543,
+          "null_mean": 0.4952,
+          "perm_p": 0.237
+        }
+      }
+    },
+    "tumor_strict": {
+      "n_patches": {
+        "CRC": 60935,
+        "STAD": 21443
+      },
+      "n_patients": {
+        "CRC": 534,
+        "STAD": 376
+      },
+      "shared_state": {
+        "n_shared_fdr10": 2,
+        "shared_states": [
+          10,
+          20
+        ],
+        "n_stad_fdr10": 2,
+        "n_crc_fdr10": 3
+      },
+      "best_state_auroc": {
+        "CRC": 0.6115,
+        "STAD": 0.6455
+      },
+      "within_cv_auroc": {
+        "CRC": 0.7529,
+        "STAD": 0.6908
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.4147,
+          "null_mean": 0.4949,
+          "perm_p": 0.846
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.5011,
+          "null_mean": 0.5001,
+          "perm_p": 0.502
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.3826,
+          "null_mean": 0.4989,
+          "perm_p": 0.986
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.5606,
+          "null_mean": 0.4902,
+          "perm_p": 0.188
+        }
+      }
+    },
+    "stroma_immune": {
+      "n_patches": {
+        "CRC": 24554,
+        "STAD": 33078
+      },
+      "n_patients": {
+        "CRC": 534,
+        "STAD": 376
+      },
+      "shared_state": {
+        "n_shared_fdr10": 0,
+        "shared_states": [],
+        "n_stad_fdr10": 0,
+        "n_crc_fdr10": 1
+      },
+      "best_state_auroc": {
+        "CRC": 0.6259,
+        "STAD": 0.5739
+      },
+      "within_cv_auroc": {
+        "CRC": 0.5946,
+        "STAD": 0.6074
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.5386,
+          "null_mean": 0.4983,
+          "perm_p": 0.229
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.5737,
+          "null_mean": 0.5006,
+          "perm_p": 0.122
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.5451,
+          "null_mean": 0.4967,
+          "perm_p": 0.178
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.6336,
+          "null_mean": 0.4973,
+          "perm_p": 0.009
+        }
+      }
+    },
+    "mucin_debris": {
+      "n_patches": {
+        "CRC": 16370,
+        "STAD": 13660
+      },
+      "n_patients": {
+        "CRC": 534,
+        "STAD": 376
+      },
+      "shared_state": {
+        "n_shared_fdr10": 1,
+        "shared_states": [
+          13
+        ],
+        "n_stad_fdr10": 3,
+        "n_crc_fdr10": 6
+      },
+      "best_state_auroc": {
+        "CRC": 0.6809,
+        "STAD": 0.6602
+      },
+      "within_cv_auroc": {
+        "CRC": 0.6791,
+        "STAD": 0.6775
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.6361,
+          "null_mean": 0.4888,
+          "perm_p": 0.049
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.6607,
+          "null_mean": 0.4971,
+          "perm_p": 0.031
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.5079,
+          "null_mean": 0.4986,
+          "perm_p": 0.449
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.6198,
+          "null_mean": 0.4995,
+          "perm_p": 0.031
+        }
+      }
+    }
+  }
+}

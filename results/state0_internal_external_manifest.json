@@ -1,0 +1,506 @@
+{
+  "meta": {
+    "cv_seed": 1234,
+    "perm_seed": 20260807,
+    "nperm": 1000,
+    "policy": "no fallback: slides with <16 qualifying patches excluded",
+    "min_keep": 16
+  },
+  "no_fallback_compartments": {
+    "tumor_argmax": {
+      "n_patients": {
+        "CRC": 517,
+        "STAD": 260
+      },
+      "n_msi": {
+        "CRC": 68,
+        "STAD": 53
+      },
+      "within_cv": {
+        "CRC": 0.7886,
+        "STAD": 0.7051
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.4936,
+          "perm_p": 0.554
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.5732,
+          "perm_p": 0.209
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.4818,
+          "perm_p": 0.515
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.6815,
+          "perm_p": 0.024
+        }
+      }
+    },
+    "tumor_p50": {
+      "n_patients": {
+        "CRC": 515,
+        "STAD": 234
+      },
+      "n_msi": {
+        "CRC": 67,
+        "STAD": 51
+      },
+      "within_cv": {
+        "CRC": 0.7527,
+        "STAD": 0.6652
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.4186,
+          "perm_p": 0.808
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.5306,
+          "perm_p": 0.333
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.5575,
+          "perm_p": 0.101
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.5484,
+          "perm_p": 0.238
+        }
+      }
+    },
+    "tumor_p70": {
+      "n_patients": {
+        "CRC": 497,
+        "STAD": 197
+      },
+      "n_msi": {
+        "CRC": 60,
+        "STAD": 47
+      },
+      "within_cv": {
+        "CRC": 0.7654,
+        "STAD": 0.507
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.5699,
+          "perm_p": 0.191
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.5483,
+          "perm_p": 0.157
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.5657,
+          "perm_p": 0.123
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.6436,
+          "perm_p": 0.017
+        }
+      }
+    },
+    "tumor_p90": {
+      "n_patients": {
+        "CRC": 430,
+        "STAD": 107
+      },
+      "n_msi": {
+        "CRC": 49,
+        "STAD": 29
+      },
+      "within_cv": {
+        "CRC": 0.7037,
+        "STAD": 0.5767
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.724,
+          "perm_p": 0.001
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.6671,
+          "perm_p": 0.026
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.5804,
+          "perm_p": 0.078
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.6485,
+          "perm_p": 0.098
+        }
+      }
+    },
+    "stroma_immune": {
+      "n_patients": {
+        "CRC": 393,
+        "STAD": 335
+      },
+      "n_msi": {
+        "CRC": 59,
+        "STAD": 50
+      },
+      "within_cv": {
+        "CRC": 0.6555,
+        "STAD": 0.5986
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.579,
+          "perm_p": 0.034
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.6107,
+          "perm_p": 0.023
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.589,
+          "perm_p": 0.018
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.5523,
+          "perm_p": 0.292
+        }
+      }
+    },
+    "mucin_debris": {
+      "n_patients": {
+        "CRC": 255,
+        "STAD": 203
+      },
+      "n_msi": {
+        "CRC": 52,
+        "STAD": 38
+      },
+      "within_cv": {
+        "CRC": 0.6541,
+        "STAD": 0.6384
+      },
+      "transfer": {
+        "STAD_to_CRC::raw": {
+          "auroc": 0.6014,
+          "perm_p": 0.138
+        },
+        "CRC_to_STAD::raw": {
+          "auroc": 0.5927,
+          "perm_p": 0.184
+        },
+        "STAD_to_CRC::clr": {
+          "auroc": 0.5401,
+          "perm_p": 0.269
+        },
+        "CRC_to_STAD::clr": {
+          "auroc": 0.4759,
+          "perm_p": 0.664
+        }
+      }
+    }
+  },
+  "bh_fdr_transfer_tests": {
+    "tumor_argmax::STAD_to_CRC::raw": {
+      "p": 0.554,
+      "q": 0.6044
+    },
+    "tumor_argmax::CRC_to_STAD::raw": {
+      "p": 0.209,
+      "q": 0.3135
+    },
+    "tumor_argmax::STAD_to_CRC::clr": {
+      "p": 0.515,
+      "q": 0.5886
+    },
+    "tumor_argmax::CRC_to_STAD::clr": {
+      "p": 0.024,
+      "q": 0.104
+    },
+    "tumor_p50::STAD_to_CRC::raw": {
+      "p": 0.808,
+      "q": 0.808
+    },
+    "tumor_p50::CRC_to_STAD::raw": {
+      "p": 0.333,
+      "q": 0.3996
+    },
+    "tumor_p50::STAD_to_CRC::clr": {
+      "p": 0.101,
+      "q": 0.2424
+    },
+    "tumor_p50::CRC_to_STAD::clr": {
+      "p": 0.238,
+      "q": 0.336
+    },
+    "tumor_p70::STAD_to_CRC::raw": {
+      "p": 0.191,
+      "q": 0.3056
+    },
+    "tumor_p70::CRC_to_STAD::raw": {
+      "p": 0.157,
+      "q": 0.2898
+    },
+    "tumor_p70::STAD_to_CRC::clr": {
+      "p": 0.123,
+      "q": 0.2684
+    },
+    "tumor_p70::CRC_to_STAD::clr": {
+      "p": 0.017,
+      "q": 0.104
+    },
+    "tumor_p90::STAD_to_CRC::raw": {
+      "p": 0.001,
+      "q": 0.024
+    },
+    "tumor_p90::CRC_to_STAD::raw": {
+      "p": 0.026,
+      "q": 0.104
+    },
+    "tumor_p90::STAD_to_CRC::clr": {
+      "p": 0.078,
+      "q": 0.234
+    },
+    "tumor_p90::CRC_to_STAD::clr": {
+      "p": 0.098,
+      "q": 0.2424
+    },
+    "stroma_immune::STAD_to_CRC::raw": {
+      "p": 0.034,
+      "q": 0.1166
+    },
+    "stroma_immune::CRC_to_STAD::raw": {
+      "p": 0.023,
+      "q": 0.104
+    },
+    "stroma_immune::STAD_to_CRC::clr": {
+      "p": 0.018,
+      "q": 0.104
+    },
+    "stroma_immune::CRC_to_STAD::clr": {
+      "p": 0.292,
+      "q": 0.3688
+    },
+    "mucin_debris::STAD_to_CRC::raw": {
+      "p": 0.138,
+      "q": 0.276
+    },
+    "mucin_debris::CRC_to_STAD::raw": {
+      "p": 0.184,
+      "q": 0.3056
+    },
+    "mucin_debris::STAD_to_CRC::clr": {
+      "p": 0.269,
+      "q": 0.3587
+    },
+    "mucin_debris::CRC_to_STAD::clr": {
+      "p": 0.664,
+      "q": 0.6929
+    }
+  },
+  "bh_fdr_min_q": 0.024,
+  "patient_level_state0_MUC": {
+    "CRC": {
+      "n_patients": 77,
+      "delta_mean": 0.7295,
+      "boot95": [
+        0.6995,
+        0.7571
+      ],
+      "wilcoxon_p": 2.46e-14,
+      "frac_positive": 1.0
+    }
+  },
+  "patient_level_state41_DEB": {
+    "CRC": {
+      "n_patients": 78,
+      "delta_mean": 0.364,
+      "boot95": [
+        0.3222,
+        0.406
+      ],
+      "wilcoxon_p": 2.04e-14,
+      "frac_positive": 0.987
+    },
+    "STAD": {
+      "n_patients": 84,
+      "delta_mean": 0.3257,
+      "boot95": [
+        0.288,
+        0.3613
+      ],
+      "wilcoxon_p": 2.73e-15,
+      "frac_positive": 0.952
+    }
+  },
+  "patient_level_state41_LYM": {
+    "CRC": {
+      "n_patients": 78,
+      "delta_mean": 0.0498,
+      "boot95": [
+        0.0352,
+        0.0667
+      ],
+      "wilcoxon_p": 2.48e-10,
+      "frac_positive": 0.833
+    },
+    "STAD": {
+      "n_patients": 84,
+      "delta_mean": 0.0308,
+      "boot95": [
+        0.0202,
+        0.0425
+      ],
+      "wilcoxon_p": 4.56e-07,
+      "frac_positive": 0.714
+    }
+  },
+  "multi_realization": {
+    "per_realization": {
+      "published": {
+        "best_state": {
+          "CRC": 0.7,
+          "STAD": 0.6361
+        },
+        "within_cv": {
+          "CRC": 0.7079,
+          "STAD": 0.6913
+        },
+        "transfer_raw": {
+          "STAD_to_CRC": {
+            "auroc": 0.5331,
+            "perm_p": 0.25
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5929,
+            "perm_p": 0.1
+          }
+        }
+      },
+      "r1": {
+        "best_state": {
+          "CRC": 0.6663,
+          "STAD": 0.7264
+        },
+        "within_cv": {
+          "CRC": 0.6807,
+          "STAD": 0.732
+        },
+        "transfer_raw": {
+          "STAD_to_CRC": {
+            "auroc": 0.4892,
+            "perm_p": 0.535
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5961,
+            "perm_p": 0.09
+          }
+        }
+      },
+      "r2": {
+        "best_state": {
+          "CRC": 0.6773,
+          "STAD": 0.6322
+        },
+        "within_cv": {
+          "CRC": 0.7196,
+          "STAD": 0.6885
+        },
+        "transfer_raw": {
+          "STAD_to_CRC": {
+            "auroc": 0.4453,
+            "perm_p": 0.77
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5594,
+            "perm_p": 0.2
+          }
+        }
+      },
+      "r3": {
+        "best_state": {
+          "CRC": 0.683,
+          "STAD": 0.6138
+        },
+        "within_cv": {
+          "CRC": 0.7663,
+          "STAD": 0.7164
+        },
+        "transfer_raw": {
+          "STAD_to_CRC": {
+            "auroc": 0.5594,
+            "perm_p": 0.225
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5849,
+            "perm_p": 0.11
+          }
+        }
+      },
+      "r4": {
+        "best_state": {
+          "CRC": 0.682,
+          "STAD": 0.6228
+        },
+        "within_cv": {
+          "CRC": 0.6762,
+          "STAD": 0.7043
+        },
+        "transfer_raw": {
+          "STAD_to_CRC": {
+            "auroc": 0.4164,
+            "perm_p": 0.885
+          },
+          "CRC_to_STAD": {
+            "auroc": 0.5374,
+            "perm_p": 0.28
+          }
+        }
+      }
+    },
+    "summary": {
+      "best_state_CRC": {
+        "median": 0.682,
+        "range": [
+          0.6663,
+          0.7
+        ]
+      },
+      "best_state_STAD": {
+        "median": 0.6322,
+        "range": [
+          0.6138,
+          0.7264
+        ]
+      },
+      "within_cv_CRC": {
+        "median": 0.7079,
+        "range": [
+          0.6762,
+          0.7663
+        ]
+      },
+      "within_cv_STAD": {
+        "median": 0.7043,
+        "range": [
+          0.6885,
+          0.732
+        ]
+      },
+      "transfer_S2C": {
+        "median": 0.4892,
+        "range": [
+          0.4164,
+          0.5594
+        ]
+      },
+      "transfer_C2S": {
+        "median": 0.5849,
+        "range": [
+          0.5374,
+          0.5961
+        ]
+      }
+    }
+  }
+}

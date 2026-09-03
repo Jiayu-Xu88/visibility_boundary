@@ -1,0 +1,69 @@
+{
+ "stad_msi_state_composition": {
+  "state_18": {
+   "n_patches": 6420,
+   "top_classes": {
+    "TUM": 0.388,
+    "STR": 0.217,
+    "DEB": 0.165
+   }
+  },
+  "state_22": {
+   "n_patches": 1416,
+   "top_classes": {
+    "TUM": 0.879,
+    "DEB": 0.063,
+    "STR": 0.03
+   }
+  },
+  "state_03": {
+   "n_patches": 5637,
+   "top_classes": {
+    "STR": 0.392,
+    "MUS": 0.387,
+    "DEB": 0.054
+   }
+  },
+  "state_05": {
+   "n_patches": 6463,
+   "top_classes": {
+    "NORM": 0.337,
+    "DEB": 0.127,
+    "STR": 0.117
+   }
+  },
+  "state_11": {
+   "n_patches": 3481,
+   "top_classes": {
+    "ADI": 0.305,
+    "STR": 0.169,
+    "BACK": 0.148
+   }
+  },
+  "state_16": {
+   "n_patches": 5522,
+   "top_classes": {
+    "STR": 0.449,
+    "MUS": 0.144,
+    "TUM": 0.096
+   }
+  },
+  "state_23": {
+   "n_patches": 4582,
+   "top_classes": {
+    "MUS": 0.891,
+    "STR": 0.056,
+    "DEB": 0.021
+   }
+  }
+ },
+ "interaction_muc_x_lineage": {
+  "or": 0.29,
+  "ci95": [
+   0.07,
+   1.17
+  ],
+  "p": 0.0813,
+  "n": 908
+ }
+}

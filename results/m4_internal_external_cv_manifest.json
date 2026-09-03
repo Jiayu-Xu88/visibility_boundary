@@ -1,0 +1,121 @@
+{
+ "meta": {
+  "cv_seed": 1234,
+  "perm_seed": 20260807,
+  "nboot": 2000,
+  "nperm": 1000,
+  "design": "leave-one-tissue-source-site-out, held-out scores pooled"
+ },
+ "CRC": {
+  "n_patients": 534,
+  "n_centers": 36,
+  "MSI_H": {
+   "n_pos": 71,
+   "loco_pooled_auroc": 0.5902,
+   "loco_boot95": [
+    0.5146,
+    0.6686
+   ],
+   "loco_perm_p": 0.02,
+   "loco_perm_null_mean": 0.4944,
+   "random_5fold_cv_auroc": 0.7079,
+   "optimism_random_minus_loco": 0.1176,
+   "per_center_auroc_where_evaluable": {
+    "A6": 0.6367,
+    "AA": 0.5238,
+    "CM": 0.6264,
+    "D5": 0.5077,
+    "G4": 0.6353
+   }
+  },
+  "mucinous_control": {
+   "n_pos": 69,
+   "loco_pooled_auroc": 0.7203,
+   "loco_boot95": [
+    0.6488,
+    0.7893
+   ],
+   "loco_perm_p": 0.001,
+   "loco_perm_null_mean": 0.4958,
+   "random_5fold_cv_auroc": 0.7572,
+   "optimism_random_minus_loco": 0.037,
+   "per_center_auroc_where_evaluable": {
+    "AA": 0.7178,
+    "AG": 0.5733,
+    "D5": 0.7,
+    "DM": 0.7768
+   }
+  }
+ },
+ "STAD": {
+  "n_patients": 376,
+  "n_centers": 22,
+  "MSI_H": {
+   "n_pos": 60,
+   "loco_pooled_auroc": 0.6941,
+   "loco_boot95": [
+    0.6164,
+    0.7682
+   ],
+   "loco_perm_p": 0.001,
+   "loco_perm_null_mean": 0.499,
+   "random_5fold_cv_auroc": 0.6913,
+   "optimism_random_minus_loco": -0.0029,
+   "per_center_auroc_where_evaluable": {
+    "BR": 0.7394,
+    "CG": 0.6057,
+    "HU": 0.6761,
+    "VQ": 0.7736
+   }
+  },
+  "mucinous_control": {
+   "n_pos": 21,
+   "loco_pooled_auroc": 0.5991,
+   "loco_boot95": [
+    0.408,
+    0.7753
+   ],
+   "loco_perm_p": 0.0969,
+   "loco_perm_null_mean": 0.4906,
+   "random_5fold_cv_auroc": 0.7233,
+   "optimism_random_minus_loco": 0.1242,
+   "per_center_auroc_where_evaluable": {
+    "BR": 0.979
+   }
+  },
+  "subtypes_loco": {
+   "EBV": {
+    "n": 325,
+    "n_pos": 27,
+    "loco": 0.6086,
+    "perm_p": 0.0559,
+    "random_5fold": 0.6848,
+    "optimism": 0.0762
+   },
+   "MSI": {
+    "n": 325,
+    "n_pos": 53,
+    "loco": 0.6827,
+    "perm_p": 0.001,
+    "random_5fold": 0.6827,
+    "optimism": 0.0
+   },
+   "GS": {
+    "n": 325,
+    "n_pos": 48,
+    "loco": 0.7052,
+    "perm_p": 0.001,
+    "random_5fold": 0.7239,
+    "optimism": 0.0187
+   },
+   "CIN": {
+    "n": 325,
+    "n_pos": 197,
+    "loco": 0.5406,
+    "perm_p": 0.1469,
+    "random_5fold": 0.5243,
+    "optimism": -0.0164
+   }
+  }
+ }
+}
