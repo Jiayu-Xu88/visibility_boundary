@@ -77,6 +77,42 @@ def letter(ax, ch, dx=-0.06, dy=1.0):
             fontweight="bold", va="bottom", ha="left")
 
 
+def flabel(fig, ch, y, x=0.012):
+    """Panel letter in FIGURE coordinates, so every letter in a figure sits at
+    the same distance from the page edge."""
+    fig.text(x, y, ch, fontsize=9, fontweight="bold", va="top", ha="left")
+
+
+def tile_row(fig, ims, left, right, top, n_cols, n_rows, gap=0.06,
+             edge=None, edge_lw=0.5):
+    """Lay a grid of square image tiles that spans exactly left..right.
+
+    imshow keeps an equal aspect, so tiles placed by a gridspec shrink and
+    centre themselves; positioning them explicitly is what makes the row line up
+    with the data panels.
+    """
+    w_fig, h_fig = fig.get_size_inches()
+    tw = (right - left) / (n_cols + (n_cols - 1) * gap)
+    th = tw * w_fig / h_fig
+    axes = []
+    for r in range(n_rows):
+        for c in range(n_cols):
+            x = left + c * tw * (1 + gap)
+            y = top - (r + 1) * th - r * th * gap
+            ax = fig.add_axes([x, y, tw, th])
+            ax.set_xticks([]); ax.set_yticks([])
+            for sp in ax.spines.values():
+                sp.set_linewidth(edge_lw)
+                sp.set_color(edge or INK)
+            k = r * n_cols + c
+            if k < len(ims) and ims[k] is not None:
+                ax.imshow(ims[k], aspect="auto")
+            else:
+                ax.set_facecolor("#F2F2F2")
+            axes.append(ax)
+    return axes, th
+
+
 def tiles(folder, k=4, thresh=225):
     out = []
     for f in sorted(Path(folder).glob("rank*.png")):
@@ -166,11 +202,18 @@ def figure1():
 # ===================================================================== F2 ===
 def figure2():
     """Hero: b. a defines the object, c and d make it inspectable."""
-    fig = plt.figure(figsize=(W, 148 * MM))
-    gs = fig.add_gridspec(4, 1, height_ratios=[0.50, 0.78, 0.62, 0.62], hspace=0.70)
+    fig = plt.figure(figsize=(W, 186 * MM))
+    gs = fig.add_gridspec(2, 1, height_ratios=[0.50, 0.78], hspace=0.50,
+                          top=0.972, bottom=0.640, left=0.085, right=0.965)
+    # tile geometry drives where the image panels sit, so widening the tiles
+    # can never push one panel onto another again
+    L, Rr, GAP = 0.085, 0.965, 0.06
+    _tw = (Rr - L) / (8 + 7 * GAP)
+    _th = _tw * fig.get_size_inches()[0] / fig.get_size_inches()[1]
+    _rowh = 2 * _th + GAP * _th
+    TOP_C = 0.560
+    TOP_D = TOP_C - _rowh - 0.070
     axA = fig.add_subplot(gs[0]); axB = fig.add_subplot(gs[1])
-    gc = gs[2].subgridspec(2, 8, wspace=0.05, hspace=0.05)
-    gd = gs[3].subgridspec(2, 8, wspace=0.05, hspace=0.05)
 
     assoc = pd.read_csv(REPRO / "gi_morphology_state_associations.tsv", sep="\t")
     mat, sig = [], []
@@ -194,7 +237,7 @@ def figure2():
     cb = fig.colorbar(im, ax=axA, fraction=0.022, pad=0.010, aspect=8)
     cb.outline.set_linewidth(0.5); cb.ax.tick_params(labelsize=5.8, width=0.5, length=1.8)
     cb.ax.set_title("Cliff $\\delta$", fontsize=6.2, pad=3)
-    letter(axA, "a", dx=-0.075, dy=1.18)
+    flabel(fig, "a", 0.995)
 
     # hero: does the within-lineage signal survive centre shift?
     for i, (coh, name) in enumerate([("CRC", "colorectal"), ("STAD", "gastric")]):
@@ -223,43 +266,40 @@ def figure2():
     axB.text(1.0, 1.02, "gastric", ha="center", fontsize=6.4, style="italic",
              transform=axB.get_xaxis_transform())
     clean(axB)
-    letter(axB, "b", dx=-0.135, dy=1.06)
+    flabel(fig, "b", 0.800)
 
     # c: the same state in both organs.  d: the four gastric states that shift with MSI-H.
-    for r, (name, folder) in enumerate([("colorectal", EX_DIR / "CRC_MSI_state00"),
-                                        ("gastric", EX_DIR / "STAD_state00")]):
-        ims = tiles(folder, 8)
-        for c in range(8):
-            ax = fig.add_subplot(gc[r, c])
-            ax.set_xticks([]); ax.set_yticks([])
-            for sp in ax.spines.values():
-                sp.set_linewidth(0.5); sp.set_color(INK)
-            ax.imshow(ims[c]) if c < len(ims) else ax.set_facecolor("#F2F2F2")
-            if c == 0:
-                ax.set_ylabel(name, fontsize=5.9, labelpad=2)
-                if r == 0:
-                    letter(ax, "c", dx=-0.62, dy=1.14)
+    ims_c = tiles(EX_DIR / "CRC_MSI_state00", 8) + tiles(EX_DIR / "STAD_state00", 8)
+    axes_c, th_c = tile_row(fig, ims_c, L, Rr, TOP_C, 8, 2, gap=GAP)
+    for r, name in enumerate(["colorectal", "gastric"]):
+        axes_c[r * 8].set_ylabel(name, fontsize=5.9, labelpad=2)
+    flabel(fig, "c", TOP_C + 0.030)
 
     gastric = [(22, "state 22 \u2191", RED, "tumour"), (18, "state 18 \u2191", RED, "mixed"),
                (23, "state 23 \u2193", BLUE, "muscle"),
                (5, "state 5 \u2193", BLUE, "normal mucosa")]
+    top_d = TOP_D
+    ims_d = [None] * 16
     for gi, (st, name, col, tissue) in enumerate(gastric):
-        ims = tiles(EX_DIR / f"STAD_state{st:02d}", 4)
+        got = tiles(EX_DIR / f"STAD_state{st:02d}", 4)
         for k in range(4):
             rr, cc = divmod(k, 2)
-            ax = fig.add_subplot(gd[rr, gi * 2 + cc])
-            ax.set_xticks([]); ax.set_yticks([])
+            if k < len(got):
+                ims_d[rr * 8 + gi * 2 + cc] = got[k]
+    axes_d, th_d = tile_row(fig, ims_d, L, Rr, top_d, 8, 2, gap=GAP)
+    tw_d = _tw
+    for gi, (st, name, col, tissue) in enumerate(gastric):
+        for k in range(4):
+            rr, cc = divmod(k, 2)
+            ax = axes_d[rr * 8 + gi * 2 + cc]
             for sp in ax.spines.values():
-                sp.set_linewidth(0.5); sp.set_color(col)
-            ax.imshow(ims[k]) if k < len(ims) else ax.set_facecolor("#F2F2F2")
-            if k == 0:
-                ax.set_title(name, fontsize=6.0, loc="left", pad=2, color=col)
-                if gi == 0:
-                    letter(ax, "d", dx=-0.62, dy=1.34)
-            if k == 2:
-                ax.text(0, -0.09, tissue, fontsize=5.7, color=GREY,
-                        transform=ax.transAxes, va="top")
-    fig.text(0.5, 0.045, "c  state 0 in both organs        d  gastric states that shift with"
+                sp.set_color(col)
+        axes_d[gi * 2].set_title(name, fontsize=6.0, loc="left", pad=2, color=col)
+        fig.text(L + gi * 2 * tw_d * 1.06, top_d - 2 * th_d - th_d * 0.06 - 0.012,
+                 tissue, fontsize=5.7, color=GREY, va="top")
+    flabel(fig, "d", TOP_D + 0.030)
+    fig.text(0.5, TOP_D - _rowh - 0.048,
+             "c  state 0 in both organs        d  gastric states that shift with"
              " MSI-H;  \u2191 enriched, \u2193 depleted", ha="center", fontsize=5.9, color=GREY)
 
     save(fig, "Figure_2")
