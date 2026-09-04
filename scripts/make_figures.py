@@ -135,10 +135,13 @@ def save(fig, name):
 def figure1():
     """Hero: b. a is the design bridge that makes b interpretable."""
     fig = plt.figure(figsize=(W, 92 * MM))
-    gs = fig.add_gridspec(2, 1, height_ratios=[0.72, 1.0], hspace=0.34)
+    gs = fig.add_gridspec(2, 1, height_ratios=[0.72, 1.0], hspace=0.34,
+                          left=0.055, right=0.965, top=0.94, bottom=0.115)
     axA = fig.add_subplot(gs[0]); axB = fig.add_subplot(gs[1])
 
-    axA.set_axis_off(); axA.set_xlim(0, 1); axA.set_ylim(0, 1)
+    # the schematic's boxes run to x = 0.93 in its own coordinates; ending the
+    # axis there makes the schematic span the same width as the data panel
+    axA.set_axis_off(); axA.set_xlim(0, 0.93); axA.set_ylim(0, 1)
 
     def box(xy, w, h, txt, ec=INK, fc="none", fs=6.2, bold=False):
         axA.add_patch(Rectangle(xy, w, h, lw=0.6, ec=ec, fc=fc))
@@ -164,7 +167,7 @@ def figure1():
     axA.text(0.450, 0.955, "route 1  prediction", fontsize=6.5, color=BLUE, fontweight="bold")
     axA.text(0.450, 0.035, "route 2  the representation used to interpret it",
              fontsize=6.5, color=RED, fontweight="bold")
-    letter(axA, "a", dx=-0.02, dy=0.97)
+    flabel(fig, "a", 0.985)
 
     MUC = lad["R2_mucinous_icdo"]["transfer"]["CRC_to_STAD"]
     rows = [("supervised classifier", 0.73, None, BLUE),
@@ -194,7 +197,11 @@ def figure1():
                        (0.5, "within-gastric reference", GREY)]:
         axB.text(0.898, yy, txt, fontsize=6.1, color=c, ha="right",
                  va="center", style="italic")
-    letter(axB, "b", dx=-0.175, dy=1.02)
+    flabel(fig, "b", 0.545)
+    # pin the schematic to the data panel's axes box so the two panels share a
+    # left and right edge; the y tick labels would otherwise offset only one
+    _pb, _pa = axB.get_position(), axA.get_position()
+    axA.set_position([_pb.x0, _pa.y0, _pb.width, _pa.height])
     save(fig, "Figure_1")
     print("Figure 1")
 
