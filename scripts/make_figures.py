@@ -38,7 +38,8 @@ sm = J("m3c_size_matched_manifest.json")
 cv = J("m4_internal_external_cv_manifest.json")
 m11 = J("m11_reconstruction_control_manifest.json")["targets"]
 e2c = J("e2c_mil_projection_manifest.json")
-audit = J("e2_representation_audit_manifest.json")["E2a"]
+audit_full = J("e2_representation_audit_manifest.json")
+audit = audit_full["E2a"]
 surgen = J("surgen_state0_bootstrap_ci.json")["by_label_view"]["dmmr_msi_composite"]["auroc"]
 did = json.load(open(P / "did_label_contrast_manifest.json"))
 
@@ -317,8 +318,8 @@ def figure2():
 def figure3():
     """Two co-heroes: a excludes method insensitivity, b addresses batch collinearity."""
     fig = plt.figure(figsize=(W, 62 * MM))
-    gs = fig.add_gridspec(1, 2, width_ratios=[1.32, 1.0], wspace=0.30)
-    axA = fig.add_subplot(gs[0]); axB = fig.add_subplot(gs[1])
+    gs = fig.add_gridspec(1, 3, width_ratios=[1.26, 1.02, 0.62], wspace=0.40)
+    axA = fig.add_subplot(gs[0]); axB = fig.add_subplot(gs[1]); axC = fig.add_subplot(gs[2])
 
     order = [("R0_MUC_q4", "mucus", GREY), ("R1b_DEB_q4", "debris", GREY),
              ("R1c_STR_q4", "stroma", GREY), ("R1a_LYM_q4", "lymphocyte", GREY),
@@ -347,7 +348,7 @@ def figure3():
              va="bottom", style="italic", transform=axA.get_xaxis_transform())
     axA.text(6.5, 1.01, "pathology records", fontsize=6.0, color=INK, ha="center",
              va="bottom", style="italic", transform=axA.get_xaxis_transform())
-    clean(axA); letter(axA, "a", dx=-0.11, dy=1.06)
+    clean(axA)
 
     XORG = {"CRC": sm["A_size_matched_cross_organ"]["STAD_to_CRC"]["auroc_median"],
             "STAD": sm["A_size_matched_cross_organ"]["CRC_to_STAD"]["auroc_median"]}
@@ -363,17 +364,14 @@ def figure3():
                      lw=0.9, ms=3.8, mfc=fill or col, mec=col, mew=0.9, zorder=3)
             axB.text(off + 0.25, xorg, f"{xorg - xcen:+.2f}", fontsize=6.1, color=col,
                      va="center", ha="left", fontweight="bold")
-            axB.text(off - 0.25, xcen, lab, fontsize=6.1, color=col,
-                     ha="right", va="center")
-        d = did[f"evaluated_on_{coh}"]
-        axB.text(off, 0.468, f"DiD {d['difference_in_differences']:+.2f}\n"
-                 f"[{d['did_ci95'][0]:+.2f}, {d['did_ci95'][1]:+.2f}]\n"
-                 f"p = {d['permutation_p_two_sided']:.2f}",
-                 ha="center", va="top", fontsize=5.8, linespacing=1.45,
-                 color=INK if d["did_excludes_zero"] else GREY)
+            pass  # series are named once in the panel corner below
+    axB.text(0.98, 0.985, "MSI-H", fontsize=6.0, color=RED, fontweight="bold",
+             transform=axB.transAxes, va="top", ha="right")
+    axB.text(0.98, 0.905, "mucinous", fontsize=6.0, color=BLUE,
+             transform=axB.transAxes, va="top", ha="right")
     axB.set_xticks([-0.20, 0.20, 0.80, 1.20])
-    axB.set_xticklabels(["across\ncentres", "across\norgans"] * 2, fontsize=6.0)
-    axB.set_xlim(-0.68, 1.60); axB.set_ylim(0.375, 0.78)
+    axB.set_xticklabels(["centres", "organs"] * 2, fontsize=5.8)
+    axB.set_xlim(-0.45, 1.52); axB.set_ylim(0.48, 0.80)
     axB.set_yticks([0.50, 0.55, 0.60, 0.65, 0.70, 0.75])
     axB.set_ylabel("transfer AUROC", labelpad=1)
     axB.text(0.0, 1.02, "colorectal", ha="center", fontsize=6.4, style="italic",
@@ -382,7 +380,38 @@ def figure3():
              transform=axB.get_xaxis_transform())
     axB.spines["bottom"].set_bounds(-0.45, 1.45)
     axB.spines["left"].set_bounds(0.50, 0.75)
-    clean(axB); letter(axB, "b", dx=-0.175, dy=1.06)
+    clean(axB)
+
+    # c: the change each label pays, and their difference, with 95% CIs
+    rows = []
+    for coh in ("CRC", "STAD"):
+        d = did[f"evaluated_on_{coh}"]
+        rows.append((coh, [("\u0394 MSI-H", d["delta_MSI"], d["delta_MSI_ci95"], RED),
+                           ("\u0394 control", d["delta_control"], d["delta_control_ci95"], BLUE),
+                           ("DiD", d["difference_in_differences"], d["did_ci95"], INK)]))
+    yy = 0
+    ylabels = []
+    for coh, items in rows:
+        for lab, v, ci, col in items:
+            axC.plot(ci, [yy, yy], lw=0.9, color=col, solid_capstyle="butt")
+            axC.plot(v, yy, "o", ms=3.4, mfc=col if col is not INK else "white",
+                     mec=col, mew=0.9)
+            ylabels.append(lab)
+            yy -= 1
+        yy -= 0.7
+    axC.axvline(0, lw=0.6, ls=(0, (1, 2)), color=GREY, zorder=0)
+    axC.set_yticks([0, -1, -2, -3.7, -4.7, -5.7])
+    axC.set_yticklabels(ylabels, fontsize=5.9)
+    axC.set_ylim(-6.5, 0.8)
+    axC.text(-0.40, 0.62, "colorectal", fontsize=6.0, style="italic")
+    axC.text(-0.40, -3.10, "gastric", fontsize=6.0, style="italic")
+    axC.set_xlabel("change in transfer AUROC", labelpad=1)
+    axC.set_xlim(-0.42, 0.28)
+    clean(axC)
+
+    for ax, ch in ((axA, "a"), (axB, "b"), (axC, "c")):
+        fig.text(ax.get_position().x0 - 0.045, 0.955, ch, fontsize=9,
+                 fontweight="bold", va="bottom", ha="left")
     save(fig, "Figure_3")
     print("Figure 3")
 
@@ -391,8 +420,9 @@ def figure3():
 def figure4():
     """Hero: a. b excludes a non-tissue artefact, c bounds what is shared."""
     fig = plt.figure(figsize=(W, 58 * MM))
-    gs = fig.add_gridspec(1, 3, width_ratios=[1.18, 1.02, 0.98], wspace=0.44)
-    axA = fig.add_subplot(gs[0]); axB = fig.add_subplot(gs[1]); axC = fig.add_subplot(gs[2])
+    gs = fig.add_gridspec(1, 4, width_ratios=[1.16, 0.82, 0.92, 0.78], wspace=0.50)
+    axA = fig.add_subplot(gs[0]); axL = fig.add_subplot(gs[1])
+    axB = fig.add_subplot(gs[2]); axC = fig.add_subplot(gs[3])
 
     scores = [("mucinous", m11["mucinous_score"]["r2"]["K24_fractions"],
                m11["mucinous_score"]["r2"]["mean1024"], GREY),
@@ -427,7 +457,30 @@ def figure4():
     axA.plot([], [], "o", ms=4.0, mfc=GREY, mec=GREY, label="24 states")
     axA.legend(loc="lower center", bbox_to_anchor=(0.46, 1.00), ncol=2,
                handletextpad=0.3, columnspacing=1.0, borderpad=0)
-    letter(axA, "a", dx=-0.30, dy=1.16)
+
+
+    # b: the compression ladder — how much survives each representation size
+    lad2 = audit_full["E2b"]
+    order = ["mean1024", "K128", "K64", "K24", "top1"]
+    xs = range(len(order))
+    for coh, col, lab in (("CRC", GREY, "within colorectal"),
+                          ("STAD", "#B0B0B0", "within gastric")):
+        axL.plot(xs, [lad2[k]["within_cv"][coh] for k in order], "-o", ms=2.8,
+                 lw=0.9, color=col, mfc=col, mec=col)
+    axL.plot(xs, [lad2[k]["transfer_S2C"]["auroc"] for k in order], "-o", ms=2.8,
+             lw=1.1, color=RED, mfc=RED, mec=RED)
+    axL.text(4.15, lad2["top1"]["within_cv"]["CRC"] + 0.012, "within-lineage",
+             fontsize=5.6, color=GREY, va="bottom", ha="right")
+    axL.text(4.15, lad2["top1"]["transfer_S2C"]["auroc"] - 0.012, "transfer",
+             fontsize=5.6, color=RED, va="top", ha="right")
+    axL.axhline(0.5, lw=0.6, ls=(0, (1, 2)), color=GREY, zorder=0)
+    axL.set_xticks(list(xs))
+    axL.set_xticklabels(["1,024-d", "128", "64", "24", "top-1"], fontsize=5.6,
+                        rotation=30, ha="right")
+    axL.set_ylim(0.44, 0.88)
+    axL.set_ylabel("AUROC", labelpad=1)
+    axL.set_xlabel("representation size", labelpad=1)
+    clean(axL)
 
     att = e2c["attention_tissue_classes"]
     cls = ["TUM", "STR", "MUS", "DEB", "MUC", "NORM", "BACK", "ADI", "LYM"]
@@ -442,11 +495,12 @@ def figure4():
     axB.text(0, att["high_attention_top5pct"]["TUM"] + 0.02, "0.51", ha="center",
              fontsize=6.2, color=BLUE, fontweight="bold")
     axB.set_xticks(x)
-    axB.set_xticklabels([cls_label[c] for c in cls], fontsize=5.6, rotation=38, ha="right")
+    axB.set_xticklabels([cls_label[c] for c in cls], fontsize=5.1, rotation=55, ha="right")
     axB.set_ylim(0, 0.60); axB.set_ylabel("mean class probability", labelpad=1)
     axB.set_xlabel("tissue class", labelpad=1)
-    axB.legend(loc="upper right", handlelength=1.1, handletextpad=0.4)
-    clean(axB); letter(axB, "b", dx=-0.20, dy=1.02)
+    axB.legend(loc="upper right", bbox_to_anchor=(1.02, 1.04), fontsize=5.4,
+               handlelength=0.9, handletextpad=0.35, borderpad=0.1)
+    clean(axB)
 
     obs = audit["cross"]["cos_wSTAD_wCRC"]; flo = audit["cross"]["floor_2p5_97p5"]
     bars = [("CRC", audit["CRC"]["splithalf_cos_median"], GREY),
@@ -466,7 +520,10 @@ def figure4():
     axC.text(0.5, 1.03, "within-lineage ceiling", fontsize=5.8, color=GREY, ha="center",
              va="bottom", transform=axC.get_xaxis_transform())
     axC.set_ylim(-0.25, 0.75); axC.set_ylabel("cosine of MSI directions", labelpad=1)
-    clean(axC); letter(axC, "c", dx=-0.30, dy=1.02)
+    clean(axC)
+    for ax, ch in ((axA, "a"), (axL, "b"), (axB, "c"), (axC, "d")):
+        fig.text(ax.get_position().x0 - 0.042, 0.94, ch, fontsize=9,
+                 fontweight="bold", va="bottom", ha="left")
     save(fig, "Figure_4")
     print("Figure 4")
 
