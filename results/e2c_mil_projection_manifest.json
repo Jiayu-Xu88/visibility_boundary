@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "protocol": "PREREGISTRATION_E1_E2.md",
+    "models": "CRC-trained TransMIL-lite UNI (5 folds, fold-mean prob); ABMIL UNI (5 folds, mean attention)",
+    "n_stad_patients": 376,
+    "n_msi_h": 60
+  },
+  "crc_trained_mil_on_stad_auroc": 0.7274,
+  "ridge_cv_r2_of_mil_logit": {
+    "K24": 0.1367,
+    "K64": 0.3808,
+    "K128": 0.3756,
+    "mean1024": 0.81
+  },
+  "attention_tissue_classes": {
+    "high_attention_top5pct": {
+      "ADI": 0.0117,
+      "BACK": 0.048,
+      "DEB": 0.0882,
+      "LYM": 0.0201,
+      "MUC": 0.0909,
+      "MUS": 0.0455,
+      "NORM": 0.0622,
+      "STR": 0.1208,
+      "TUM": 0.5124
+    },
+    "low_attention_bottom50pct": {
+      "ADI": 0.0504,
+      "BACK": 0.0745,
+      "DEB": 0.103,
+      "LYM": 0.0319,
+      "MUC": 0.041,
+      "MUS": 0.1953,
+      "NORM": 0.053,
+      "STR": 0.3542,
+      "TUM": 0.0967
+    }
+  },
+  "crc_trained_mil_on_stad_auroc_reproduced": 0.7274,
+  "crc_trained_mil_on_stad_boot95": [
+    0.6501,
+    0.7974
+  ],
+  "boot_meta": {
+    "n_boot": 2000,
+    "n_valid": 2000,
+    "seed": 20260807,
+    "unit": "patient",
+    "n_patients": 376,
+    "n_msi_h": 60,
+    "scores_file": "crc_trained_mil_on_stad_patient_scores.tsv"
+  }
+}

@@ -171,7 +171,8 @@ def figure1():
     flabel(fig, "a", 0.985)
 
     MUC = lad["R2_mucinous_icdo"]["transfer"]["CRC_to_STAD"]
-    rows = [("supervised classifier", 0.73, None, BLUE),
+    rows = [("supervised classifier", e2c["crc_trained_mil_on_stad_auroc"],
+             e2c.get("crc_trained_mil_on_stad_boot95"), BLUE),
             ("mucinous histology", MUC["auroc"], MUC["boot95"], BLUE),
             ("MSI-H, matched training size",
              sm["A_size_matched_cross_organ"]["CRC_to_STAD"]["auroc_median"], None, RED),
