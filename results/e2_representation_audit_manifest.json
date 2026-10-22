@@ -1,0 +1,219 @@
+{
+  "meta": {
+    "c_grid": [
+      0.01,
+      0.03,
+      0.1,
+      0.3,
+      1,
+      3
+    ],
+    "cv_seed": 1234,
+    "perm_seed": 20260807,
+    "within_lineage_evaluation": "five-fold outer CV with five-fold inner C selection",
+    "direction_fit": "C selected by five-fold CV on the full source lineage, followed by a full-lineage fit",
+    "alignment_permutation": "gastric labels shuffled; C reselected in each replicate; two-sided add-one Monte Carlo p value"
+  },
+  "E2a": {
+    "CRC": {
+      "chosen_C": 3,
+      "tuning_cv_auroc": 0.8506,
+      "nested_cv_auroc": 0.849,
+      "within_cv_auroc": 0.849,
+      "nested_outer_selected_Cs": [
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ],
+      "n": 534,
+      "n_pos": 71,
+      "splithalf_cos_median": 0.597,
+      "splithalf_cos_iqr": [
+        0.5716,
+        0.6213
+      ]
+    },
+    "STAD": {
+      "chosen_C": 3,
+      "tuning_cv_auroc": 0.8298,
+      "nested_cv_auroc": 0.827,
+      "within_cv_auroc": 0.827,
+      "nested_outer_selected_Cs": [
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ],
+      "n": 376,
+      "n_pos": 60,
+      "splithalf_cos_median": 0.5121,
+      "splithalf_cos_iqr": [
+        0.4801,
+        0.5414
+      ]
+    },
+    "cross": {
+      "cos_wSTAD_wCRC": 0.266,
+      "floor_mean": -0.007,
+      "floor_2p5_97p5": [
+        -0.1879,
+        0.1716
+      ],
+      "floor_p": 0.006,
+      "floor_p_two_sided_plus1": 0.006,
+      "permutation_scheme": "conditional null: gastric labels shuffled; C reselected by five-fold CV in every replicate; colorectal direction fixed; two-sided absolute-cosine comparison; add-one Monte Carlo p value",
+      "permutation_selected_C_counts": {
+        "0.01": 219,
+        "0.03": 114,
+        "0.1": 71,
+        "0.3": 80,
+        "1": 110,
+        "3": 406
+      },
+      "transfer_auroc_STAD_to_CRC": 0.6355,
+      "transfer_auroc_CRC_to_STAD": 0.6602
+    }
+  },
+  "E2b": {
+    "mean1024": {
+      "dim": 1024,
+      "within_cv": {
+        "CRC": 0.8331,
+        "STAD": 0.8114
+      },
+      "transfer_S2C": {
+        "auroc": 0.6027,
+        "perm_p": 0.09,
+        "nperm": 200
+      }
+    },
+    "K128": {
+      "dim": 128,
+      "within_cv": {
+        "CRC": 0.7477,
+        "STAD": 0.6565
+      },
+      "transfer_S2C": {
+        "auroc": 0.5764,
+        "perm_p": 0.064,
+        "nperm": 1000
+      }
+    },
+    "K64": {
+      "dim": 64,
+      "within_cv": {
+        "CRC": 0.759,
+        "STAD": 0.6836
+      },
+      "transfer_S2C": {
+        "auroc": 0.5674,
+        "perm_p": 0.159,
+        "nperm": 1000
+      }
+    },
+    "K24": {
+      "dim": 24,
+      "within_cv": {
+        "CRC": 0.7079,
+        "STAD": 0.6913
+      },
+      "transfer_S2C": {
+        "auroc": 0.5331,
+        "perm_p": 0.31,
+        "nperm": 1000
+      }
+    },
+    "top1": {
+      "dim": 24,
+      "within_cv": {
+        "CRC": 0.6408,
+        "STAD": 0.6204
+      },
+      "transfer_S2C": {
+        "auroc": 0.487,
+        "perm_p": 0.665,
+        "nperm": 1000
+      }
+    },
+    "MIL_reference": {
+      "note": "existing cancer-holdout benchmarks: ABMIL 0.758, TransMIL-lite 0.771 on held-out TCGA-STAD (trained on remaining GI cohorts); cited, not recomputed"
+    }
+  },
+  "E2d": {
+    "MSI-H::STAD_to_CRC": {
+      "auroc": 0.5331,
+      "upper95_onesided": 0.5963,
+      "excludes_0.62": true,
+      "null_crit95": 0.6289,
+      "power_detect_0.65": 0.73,
+      "n_test": 534,
+      "n_test_pos": 71
+    },
+    "MSI-H::CRC_to_STAD": {
+      "auroc": 0.5929,
+      "upper95_onesided": 0.6605,
+      "excludes_0.62": false,
+      "null_crit95": 0.6159,
+      "power_detect_0.65": 0.806,
+      "n_test": 376,
+      "n_test_pos": 60
+    },
+    "MLH1-hyper::STAD_to_CRC": {
+      "auroc": 0.5145,
+      "upper95_onesided": 0.5883,
+      "excludes_0.62": true,
+      "null_crit95": 0.6179,
+      "power_detect_0.65": 0.768,
+      "n_test": 337,
+      "n_test_pos": 50
+    },
+    "MLH1-hyper::CRC_to_STAD": {
+      "auroc": 0.5462,
+      "upper95_onesided": 0.6126,
+      "excludes_0.62": true,
+      "null_crit95": 0.5854,
+      "power_detect_0.65": 0.954,
+      "n_test": 355,
+      "n_test_pos": 64
+    },
+    "TMB-high::STAD_to_CRC": {
+      "auroc": 0.4946,
+      "upper95_onesided": 0.5454,
+      "excludes_0.62": true,
+      "null_crit95": 0.6053,
+      "power_detect_0.65": 0.952,
+      "n_test": 534,
+      "n_test_pos": 118
+    },
+    "TMB-high::CRC_to_STAD": {
+      "auroc": 0.5709,
+      "upper95_onesided": 0.6302,
+      "excludes_0.62": false,
+      "null_crit95": 0.6084,
+      "power_detect_0.65": 0.908,
+      "n_test": 376,
+      "n_test_pos": 82
+    },
+    "KRAS::STAD_to_CRC": {
+      "auroc": 0.5354,
+      "upper95_onesided": 0.5787,
+      "excludes_0.62": true,
+      "null_crit95": 0.5749,
+      "power_detect_0.65": 1.0,
+      "n_test": 534,
+      "n_test_pos": 200
+    },
+    "KRAS::CRC_to_STAD": {
+      "auroc": 0.4666,
+      "upper95_onesided": 0.5569,
+      "excludes_0.62": true,
+      "null_crit95": 0.5912,
+      "power_detect_0.65": 0.864,
+      "n_test": 376,
+      "n_test_pos": 29
+    }
+  }
+}

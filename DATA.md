@@ -24,9 +24,6 @@ WSIs, obtain them from the authors on request, or re-extract them from the publi
 | Supervised MIL checkpoints (`core_code/checkpoints/`) | ~2.9 GB | not needed to reproduce reported results |
 | Raw WSIs, methylation, SurGen raw | 21 / 11 / 23 GB | public — see below; not re-hosted |
 
-> Optional: if you later mint a Zenodo archive for the UNI/CONCH embeddings, record the DOI here
-> (`10.5281/zenodo.XXXXXXX`) and in the paper's Data Availability so reproduction is one-click.
-
 ## Public — cite by accession, do NOT re-host
 
 - **TCGA-COAD / TCGA-READ / TCGA-STAD** diagnostic WSIs: NIH GDC Data Portal

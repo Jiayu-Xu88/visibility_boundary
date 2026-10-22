@@ -1,54 +1,56 @@
-# Microsatellite-instability prediction can transfer across gastric and colorectal cohorts without a shared low-dimensional morphology program
+# Shared cross-organ MSI signal in pathology foundation-model space
 
-Code, the frozen intermediates that make the results recomputable without the
-whole-slide images, and the machine-readable supplementary results.
+Code and lightweight source data supporting the manuscript analyses of
+cross-organ microsatellite-instability (MSI) prediction in colorectal and
+gastric cancer.
 
-## Where each reported value comes from
+## Main findings represented in this repository
 
-Values below were read from the analysis outputs at the time this file was
-written; the script named is the one that produces them.
+| Analysis | Reported value | Machine-readable source |
+|---|---:|---|
+| CRC-trained TransMIL-lite evaluated in gastric cancer | AUROC 0.727 | `results/e2c_mil_projection_manifest.json` |
+| Continuous direction, CRC to gastric | AUROC 0.660 | `results/e2_representation_audit_manifest.json` |
+| Continuous direction, gastric to CRC | AUROC 0.636 | `results/e2_representation_audit_manifest.json` |
+| Cross-organ direction alignment | cosine 0.266; permutation p = 0.006 | `results/e2_representation_audit_manifest.json` |
+| Transferred-logit reconstruction | R^2 0.810 from 1,024D; 0.137 from K = 24 | `results/e2c_mil_projection_manifest.json` |
+| K = 24 morphology states, CRC to gastric | AUROC 0.593 | `results/e1_ladder_manifest.json` |
+| Frozen CRC state 0 evaluated in SurGen | AUROC 0.638 | `results/surgen_state0_bootstrap_ci.json` |
+| Mucinous positive control | AUROC 0.722 / 0.700 | `results/e1_ladder_manifest.json` |
 
-| Reported quantity | Value | Script |
-|---|---|---|
-| Supervised classifier transfers to gastric | AUROC 0.73 | `scripts/e2c_mil_projection.py` |
-| Image-independent mucinous control, same 24 states | AUROC 0.72 | `scripts/e1_positive_control_ladder.py` |
-| Morphology-state MSI-H, matched training size | AUROC 0.54 | `scripts/m3c_size_matched_crossorgan.py` |
-| Morphology-state MSI-H, full training cohort | AUROC 0.593 | `scripts/reconcile_transfer_auroc.py` |
-| Within-gastric, across contributing centres | AUROC 0.678 | `scripts/m3_center_and_m11_control.py` |
-| Within-gastric, leave-one-centre-out | AUROC 0.694 | `scripts/m4_internal_external_cv.py` |
-| Within-colorectal, random folds to leave-one-centre-out | 0.708 to 0.590 | `scripts/m4_internal_external_cv.py` |
-| External colorectal cohort, frozen state 0 (SurGen SR1482) | AUROC 0.639 [0.549, 0.725] | `scripts/analyze_external_msi_predictions.py` |
-| Label contrast, difference in differences (gastric) | -0.19 [-0.39, +0.02], p = 0.15 | `scripts/did_label_contrast.py` |
-| Reconstruction of the transferring score from 24 states | R2 0.14 of 0.81 (17% kept) | `scripts/e2c_mil_projection.py` |
-| Generic compression floor measured on control scores | 62-69% kept | `scripts/m3_center_and_m11_control.py` |
-| Attention on tumour epithelium, top 5% vs bottom 50% | 0.51 vs 0.10 | `scripts/e2c_mil_projection.py` |
-| Cross-organ cosine of MSI directions | 0.27 (ceilings 0.60/0.51, floor +/-0.17) | `scripts/e2_representation_audit.py` |
+The reconstruction R^2 values quantify fidelity to the transferred model output;
+they are not estimates of the proportion of MSI biology retained. Continuous
+directions, K = 24 transfer, score reconstruction, and the reverse-direction
+representation ladder are separate analyses and should not be interpreted as a
+single controlled compression experiment.
 
-## Layout
+## Repository layout
 
-```
-scripts/   the analyses above, plus the atlas construction, feature extraction
-           and MIL training they sit on
-results/   the machine-readable supplementary results (Supplementary Tables
-           S11-S17 and the manifests named in Supplementary Note S3); the frozen
-           atlas centroids and patient-level state fractions; labels/; and the
-           pre-registration document
-```
+- `scripts/`: feature extraction, MIL training, morphology-state construction,
+  final statistical analyses, and figure generation.
+- `results/`: lightweight derived tables and machine-readable outputs underlying
+  the reported figures and numerical claims.
+- `DATA.md`: public data sources, accessions, and the boundary between distributed
+  and non-distributed data.
+- `USAGE.md`: environment setup and the main reproduction routes.
 
-## Reproducing
+Raw whole-slide images and large patch-embedding caches are not duplicated on
+GitHub. Public image sources and instructions for regenerating the embeddings
+are documented in `DATA.md`.
 
-The patient-level results recompute from
-`results/gi_morphology_state_patient_fractions.tsv` and `results/labels/`
-without the whole-slide images. Only feature extraction
-(`scripts/extract_wsi_features.py`) and MIL training
-(`scripts/train_mil_classifier.py`) need the slides.
+## Reproducibility boundary
 
-`scripts/make_figures.py` reads the full set of analysis manifests, not all of
-which are distributed here; run the analyses first to regenerate them.
+The repository supports two levels of reproduction:
 
-`DATA.md` gives the accession and DOI for every public dataset; `USAGE.md` gives
-the run order.
+1. The lightweight result files allow the reported values and plots to be
+   inspected without downloading whole-slide images.
+2. The analysis scripts reproduce the models and statistics when the public
+   slides and required foundation-model features are available.
+
+The colorectal state-0 exemplar workflow is label-directed: the candidate pool
+is restricted to MSI-H before centroid ranking. The gastric state-0 workflow is
+label-blind. These images illustrate the states and are not independent evidence
+of an MSI association.
 
 ## License
 
-MIT, see `LICENSE`.
+MIT; see `LICENSE`.

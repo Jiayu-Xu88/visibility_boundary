@@ -1,0 +1,48 @@
+{
+ "meta": {
+  "n_rep": 50,
+  "seed": 20260809
+ },
+ "A_size_matched_cross_organ": {
+  "STAD_to_CRC": {
+   "train_n": 267,
+   "train_pos": 35,
+   "auroc_median": 0.5521,
+   "auroc_iqr": [
+    0.5041,
+    0.5731
+   ],
+   "within_organ_cross_center_median_same_eval_set": 0.5933
+  },
+  "CRC_to_STAD": {
+   "train_n": 188,
+   "train_pos": 30,
+   "auroc_median": 0.5363,
+   "auroc_iqr": [
+    0.4977,
+    0.587
+   ],
+   "within_organ_cross_center_median_same_eval_set": 0.6781
+  }
+ },
+ "B_positive_control_cross_center": {
+  "CRC": {
+   "n_evals": 100,
+   "auroc_median": 0.7362,
+   "auroc_iqr": [
+    0.7033,
+    0.7793
+   ],
+   "msi_cross_center_median": 0.5933
+  },
+  "STAD": {
+   "n_evals": 100,
+   "auroc_median": 0.642,
+   "auroc_iqr": [
+    0.591,
+    0.7111
+   ],
+   "msi_cross_center_median": 0.6781
+  }
+ }
+}

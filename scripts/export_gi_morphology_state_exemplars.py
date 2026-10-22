@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Export representative WSI patches for GI morphology-state pilot."""
+"""Export label-directed exemplar patches for exploratory state characterization.
+
+The candidate pool is restricted by the target label declared in TARGETS before
+patches are ranked by similarity to the frozen centroid. Outputs from this
+script are not label-blind exemplars.
+"""
 from __future__ import annotations
 
 import csv
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -11,7 +17,8 @@ import openslide
 import torch
 from PIL import Image, ImageDraw
 
-PROJECT_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(os.environ.get("PROJECT_ROOT", REPO_ROOT)).resolve()
 MANIFEST_DIR = PROJECT_ROOT / "Experiment/datasets/manifests/tasks_qc"
 ATLAS_DIR = PROJECT_ROOT / "Experiment/analysis/medical_morphology_atlas"
 OUT_DIR = ATLAS_DIR / "state_exemplars"

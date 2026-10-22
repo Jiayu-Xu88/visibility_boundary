@@ -3,6 +3,7 @@
 ladder, E2d equivalence bounds. CPU only."""
 import csv
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -12,12 +13,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold, cross_val_predict, cross_val_score
 from sklearn.metrics import roc_auc_score
 
-ROOT = Path("/home/ubuntu/shared/proj-Gastrointestinal")
+REPO_ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get("PROJECT_ROOT", REPO_ROOT)).resolve()
 MANIFEST_DIR = ROOT / "Experiment/datasets/manifests/tasks_qc"
 SF_PATH = ROOT / "Experiment/analysis/medical_morphology_atlas/gi_morphology_state_patient_fractions.tsv"
 HIGHK = ROOT / "Experiment/analysis/medical_morphology_atlas_highk_sensitivity"
 LAB = ROOT / "Experiment/datasets/labels"
-OUT_DIR = ROOT / "Publication/paper_visibility_boundary"
+OUT_DIR = REPO_ROOT / "results"
+OUT_DIR.mkdir(parents=True, exist_ok=True)
 STATE_COLS = [f"state_{i:02d}" for i in range(24)]
 CV_SEED = 1234
 PERM_SEED = 20260807
@@ -80,31 +83,64 @@ def main():
         D[coh] = {"pats": pats, "mean1024": M, "K128": F128, "K64": F64,
                   "K24": F24, "top1": onehot,
                   "msi": (sub.loc[pats, "msi_status"] == "MSI-H").astype(int).values}
+    np.savez_compressed(
+        OUT_DIR / "e2_continuous_patient_representations.npz",
+        CRC_patient_id=np.asarray(D["CRC"]["pats"]),
+        CRC_X=D["CRC"]["mean1024"].astype(np.float32),
+        CRC_y=D["CRC"]["msi"].astype(np.int8),
+        STAD_patient_id=np.asarray(D["STAD"]["pats"]),
+        STAD_X=D["STAD"]["mean1024"].astype(np.float32),
+        STAD_y=D["STAD"]["msi"].astype(np.int8),
+    )
+
     results = {"meta": {"c_grid": C_GRID,
-                        "cv_seed": CV_SEED, "perm_seed": PERM_SEED}}
+                        "cv_seed": CV_SEED, "perm_seed": PERM_SEED,
+                        "within_lineage_evaluation": "five-fold outer CV with five-fold inner C selection",
+                        "direction_fit": "C selected by five-fold CV on the full source lineage, followed by a full-lineage fit",
+                        "alignment_permutation": "gastric labels shuffled; C reselected in each replicate; two-sided add-one Monte Carlo p value"}}
 
     # ---------------- E2a ----------------
     rng = np.random.default_rng(PERM_SEED)
 
-    def choose_C(X, y):
-        best, bestC = -1, 1.0
+    def tune_C(X, y, cv):
+        best, bestC = -np.inf, 1.0
         for C in C_GRID:
-            skf = StratifiedKFold(5, shuffle=True, random_state=CV_SEED)
-            a = cross_val_score(lr(C), X, y, cv=skf, scoring="roc_auc").mean()
-            if a > best:
-                best, bestC = a, C
-        return bestC, round(float(best), 4)
+            auc = cross_val_score(lr(C), X, y, cv=cv, scoring="roc_auc").mean()
+            if auc > best:
+                best, bestC = float(auc), C
+        return bestC, best
+
+    def choose_C(X, y, seed=CV_SEED):
+        cv = StratifiedKFold(5, shuffle=True, random_state=seed)
+        bestC, best = tune_C(X, y, cv)
+        return bestC, round(best, 4)
+
+    def nested_cv_auc(X, y):
+        outer = StratifiedKFold(5, shuffle=True, random_state=CV_SEED)
+        score = np.zeros(len(y), dtype=float)
+        selected = []
+        for fold, (itr, ite) in enumerate(outer.split(X, y)):
+            inner = StratifiedKFold(5, shuffle=True, random_state=CV_SEED + fold + 1)
+            C, _ = tune_C(X[itr], y[itr], inner)
+            selected.append(float(C))
+            score[ite] = lr(C).fit(X[itr], y[itr]).decision_function(X[ite])
+        return round(float(roc_auc_score(y, score)), 4), selected
 
     w = {}
     e2a = {}
     for coh in ["CRC", "STAD"]:
         X, y = D[coh]["mean1024"], D[coh]["msi"]
-        C, cvauc = choose_C(X, y)
+        C, tuning_auc = choose_C(X, y)
+        nested_auc, outer_cs = nested_cv_auc(X, y)
         m = lr(C).fit(X, y)
         w[coh] = m.coef_[0] / np.linalg.norm(m.coef_[0])
-        e2a[coh] = {"chosen_C": C, "within_cv_auroc": cvauc,
+        e2a[coh] = {"chosen_C": C,
+                    "tuning_cv_auroc": tuning_auc,
+                    "nested_cv_auroc": nested_auc,
+                    "within_cv_auroc": nested_auc,
+                    "nested_outer_selected_Cs": outer_cs,
                     "n": int(len(y)), "n_pos": int(y.sum())}
-        print(f"E2a {coh}: C={C} cv={cvauc}", flush=True)
+        print(f"E2a {coh}: C={C} tuning_cv={tuning_auc} nested_cv={nested_auc}", flush=True)
 
     for coh in ["CRC", "STAD"]:
         X, y = D[coh]["mean1024"], D[coh]["msi"]
@@ -127,21 +163,30 @@ def main():
 
     obs_cos = float(np.dot(w["STAD"], w["CRC"]))
     floor = []
+    floor_selected_cs = []
     Xs, ys = D["STAD"]["mean1024"], D["STAD"]["msi"]
-    Cs = e2a["STAD"]["chosen_C"]
+    floor_rng = np.random.default_rng(PERM_SEED + 1)
     for i in range(N_FLOOR):
-        wp = lr(Cs).fit(Xs, rng.permutation(ys)).coef_[0]
+        yp = floor_rng.permutation(ys)
+        Cp, _ = choose_C(Xs, yp, seed=CV_SEED)
+        wp = lr(Cp).fit(Xs, yp).coef_[0]
         floor.append(float(np.dot(wp / np.linalg.norm(wp), w["CRC"])))
-        if (i + 1) % 200 == 0:
-            print(f"floor {i+1}/{N_FLOOR}", flush=True)
+        floor_selected_cs.append(float(Cp))
+        if (i + 1) % 100 == 0:
+            print(f"floor with C reselection {i+1}/{N_FLOOR}", flush=True)
     floor = np.array(floor)
+    p_two_sided = float((1 + np.sum(np.abs(floor) >= abs(obs_cos))) /
+                        (N_FLOOR + 1))
     ws_on_crc = roc_auc_score(D["CRC"]["msi"], D["CRC"]["mean1024"] @ w["STAD"])
     wc_on_stad = roc_auc_score(D["STAD"]["msi"], D["STAD"]["mean1024"] @ w["CRC"])
     e2a["cross"] = {"cos_wSTAD_wCRC": round(obs_cos, 4),
                     "floor_mean": round(float(floor.mean()), 4),
                     "floor_2p5_97p5": [round(float(np.percentile(floor, 2.5)), 4),
                                        round(float(np.percentile(floor, 97.5)), 4)],
-                    "floor_p": round(float((np.abs(floor) >= abs(obs_cos)).mean()), 4),
+                    "floor_p": round(p_two_sided, 4),
+                    "floor_p_two_sided_plus1": round(p_two_sided, 4),
+                    "permutation_scheme": "conditional null: gastric labels shuffled; C reselected by five-fold CV in every replicate; colorectal direction fixed; two-sided absolute-cosine comparison; add-one Monte Carlo p value",
+                    "permutation_selected_C_counts": {str(C): int(np.sum(np.asarray(floor_selected_cs) == C)) for C in C_GRID},
                     "transfer_auroc_STAD_to_CRC": round(float(ws_on_crc), 4),
                     "transfer_auroc_CRC_to_STAD": round(float(wc_on_stad), 4)}
     results["E2a"] = e2a

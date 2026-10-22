@@ -1,0 +1,237 @@
+{
+  "meta": {
+    "protocol": "PREREGISTRATION_E1_E2.md",
+    "quartiles": "computed within lineage",
+    "signet_note": "standalone R2-prime impossible: CRC 8490/3 count = 0; merged class used",
+    "cv_seed": 1234,
+    "perm_seed": 20260807,
+    "nperm": 1000,
+    "nboot": 2000
+  },
+  "levels": {
+    "R0_MUC_q4": {
+      "n_pos": {
+        "CRC": 134,
+        "STAD": 94
+      },
+      "within_cv": {
+        "CRC": 0.8758,
+        "STAD": 0.8153
+      },
+      "transfer": {
+        "STAD_to_CRC": {
+          "auroc": 0.8219,
+          "perm_p": 0.0,
+          "boot95": [
+            0.7842,
+            0.8557
+          ],
+          "n_test": 534,
+          "n_test_pos": 134
+        },
+        "CRC_to_STAD": {
+          "auroc": 0.8408,
+          "perm_p": 0.0,
+          "boot95": [
+            0.7884,
+            0.8881
+          ],
+          "n_test": 376,
+          "n_test_pos": 94
+        }
+      }
+    },
+    "R1a_LYM_q4": {
+      "n_pos": {
+        "CRC": 134,
+        "STAD": 94
+      },
+      "within_cv": {
+        "CRC": 0.681,
+        "STAD": 0.693
+      },
+      "transfer": {
+        "STAD_to_CRC": {
+          "auroc": 0.6699,
+          "perm_p": 0.0,
+          "boot95": [
+            0.6144,
+            0.724
+          ],
+          "n_test": 534,
+          "n_test_pos": 134
+        },
+        "CRC_to_STAD": {
+          "auroc": 0.5665,
+          "perm_p": 0.123,
+          "boot95": [
+            0.4979,
+            0.63
+          ],
+          "n_test": 376,
+          "n_test_pos": 94
+        }
+      }
+    },
+    "R1b_DEB_q4": {
+      "n_pos": {
+        "CRC": 134,
+        "STAD": 94
+      },
+      "within_cv": {
+        "CRC": 0.8284,
+        "STAD": 0.852
+      },
+      "transfer": {
+        "STAD_to_CRC": {
+          "auroc": 0.8082,
+          "perm_p": 0.0,
+          "boot95": [
+            0.7607,
+            0.8515
+          ],
+          "n_test": 534,
+          "n_test_pos": 134
+        },
+        "CRC_to_STAD": {
+          "auroc": 0.8616,
+          "perm_p": 0.0,
+          "boot95": [
+            0.8177,
+            0.9002
+          ],
+          "n_test": 376,
+          "n_test_pos": 94
+        }
+      }
+    },
+    "R1c_STR_q4": {
+      "n_pos": {
+        "CRC": 134,
+        "STAD": 94
+      },
+      "within_cv": {
+        "CRC": 0.8963,
+        "STAD": 0.8545
+      },
+      "transfer": {
+        "STAD_to_CRC": {
+          "auroc": 0.7679,
+          "perm_p": 0.022,
+          "boot95": [
+            0.7141,
+            0.8238
+          ],
+          "n_test": 534,
+          "n_test_pos": 134
+        },
+        "CRC_to_STAD": {
+          "auroc": 0.821,
+          "perm_p": 0.001,
+          "boot95": [
+            0.7675,
+            0.8722
+          ],
+          "n_test": 376,
+          "n_test_pos": 94
+        }
+      }
+    },
+    "R2_mucinous_icdo": {
+      "n_pos": {
+        "CRC": 69,
+        "STAD": 21
+      },
+      "within_cv": {
+        "CRC": 0.7572,
+        "STAD": 0.7233
+      },
+      "transfer": {
+        "STAD_to_CRC": {
+          "auroc": 0.7004,
+          "perm_p": 0.003,
+          "boot95": [
+            0.6315,
+            0.7691
+          ],
+          "n_test": 534,
+          "n_test_pos": 69
+        },
+        "CRC_to_STAD": {
+          "auroc": 0.7215,
+          "perm_p": 0.016,
+          "boot95": [
+            0.5639,
+            0.873
+          ],
+          "n_test": 376,
+          "n_test_pos": 21
+        }
+      }
+    },
+    "R2m_mucinous_or_signet": {
+      "n_pos": {
+        "CRC": 69,
+        "STAD": 36
+      },
+      "within_cv": {
+        "CRC": 0.7572,
+        "STAD": 0.6701
+      },
+      "transfer": {
+        "STAD_to_CRC": {
+          "auroc": 0.654,
+          "perm_p": 0.024,
+          "boot95": [
+            0.5758,
+            0.7311
+          ],
+          "n_test": 534,
+          "n_test_pos": 69
+        },
+        "CRC_to_STAD": {
+          "auroc": 0.6965,
+          "perm_p": 0.006,
+          "boot95": [
+            0.5866,
+            0.7994
+          ],
+          "n_test": 376,
+          "n_test_pos": 36
+        }
+      }
+    },
+    "R3_MSI_H": {
+      "n_pos": {
+        "CRC": 71,
+        "STAD": 60
+      },
+      "within_cv": {
+        "CRC": 0.7079,
+        "STAD": 0.6913
+      },
+      "transfer": {
+        "STAD_to_CRC": {
+          "auroc": 0.5331,
+          "perm_p": 0.31,
+          "boot95": [
+            0.4564,
+            0.6085
+          ],
+          "n_test": 534,
+          "n_test_pos": 71
+        },
+        "CRC_to_STAD": {
+          "auroc": 0.5929,
+          "perm_p": 0.104,
+          "boot95": [
+            0.5119,
+            0.6719
+          ],
+          "n_test": 376,
+          "n_test_pos": 60
+        }
+      }
+    }
+  }
+}
